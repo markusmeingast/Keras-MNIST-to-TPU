@@ -72,6 +72,8 @@ while cap.isOpened():
     #if it % 20 == 0:
     #    print(' | 0 | | 1 | | 2 | | 3 | | 4 | | 5 | | 6 | | 7 | | 8 | | 9 | ')
     #print(engine.get_raw_output())
+
+    ##### PLOT RESULTS
     mp.gca().cla()
     mp.bar(np.arange(10),engine.get_raw_output())
     mp.axis([-0.5,9.5,0,1])
