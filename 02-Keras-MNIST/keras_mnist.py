@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as mp
 from time import time
-from tensorflow.keras.callbacks import TensorBoard EarlyStopping
+from tensorflow.keras.callbacks import TensorBoard, EarlyStopping
 import cv2
 
 ################################################################################
@@ -69,7 +69,7 @@ print(model.summary())
 # %% INIT CALLBACKS
 ################################################################################
 
-tensorboard = TensorBoard(log_dir='logs/{}'.format(time()))
+tensorboard = TensorBoard(log_dir='logs/{}'.format(time()), update_freq='batch')
 eearlystopping = EarlyStopping(monitor='val_loss', patience=3)
 
 ################################################################################
