@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as mp
 from time import time
-from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.callbacks import TensorBoard EarlyStopping
 import cv2
 
 ################################################################################
@@ -66,10 +66,11 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 print(model.summary())
 
 ################################################################################
-# %% INIT TENSORBOARD
+# %% INIT CALLBACKS
 ################################################################################
 
 tensorboard = TensorBoard(log_dir='logs/{}'.format(time()))
+eearlystopping = EarlyStopping(monitor='val_loss', patience=3)
 
 ################################################################################
 # %% RUN MODEL
@@ -79,15 +80,17 @@ tensorboard = TensorBoard(log_dir='logs/{}'.format(time()))
 history = model.fit(
     x=X_train,
     y=y_train_ohe,
-    epochs=10,
+    epochs=100,
     verbose=1,
     validation_data=(X_test, y_test_ohe),
     use_multiprocessing=True,
     batch_size=1000,
-    callbacks=[tensorboard]
+    callbacks=[tensorboard, eearlystopping]
 )
 
-#model.save('keras_model.h5')
+model.save('keras_model.h5')
+
+##### POSSIBLE RESTART POINT
 #model = keras.models.load_model('keras_model.h5')
 
 ################################################################################

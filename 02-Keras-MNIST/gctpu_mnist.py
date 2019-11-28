@@ -75,7 +75,7 @@ while cap.isOpened():
     mp.gca().cla()
     mp.bar(np.arange(10),engine.get_raw_output())
     mp.axis([-0.5,9.5,0,1])
-    mp.pause(0.01)
+    mp.pause(0.001)
 
     image = cv2.resize(image, (560, 560))
 
