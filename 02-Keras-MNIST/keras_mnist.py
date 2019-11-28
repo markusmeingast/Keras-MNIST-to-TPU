@@ -18,6 +18,12 @@ from tensorflow.keras.callbacks import TensorBoard, EarlyStopping
 import cv2
 
 ################################################################################
+# %% DEFINE SOLVER PARAMETERS
+################################################################################
+
+batch_size = 1000
+
+################################################################################
 # %% DEFINE FUNCTIONS / CLASSES
 ################################################################################
 
@@ -69,7 +75,7 @@ print(model.summary())
 # %% INIT CALLBACKS
 ################################################################################
 
-tensorboard = TensorBoard(log_dir='logs/{}'.format(time()), update_freq='batch')
+tensorboard = TensorBoard(log_dir='logs', update_freq='epoch', batch_size=batch_size)
 eearlystopping = EarlyStopping(monitor='val_loss', patience=3)
 
 ################################################################################
@@ -84,7 +90,7 @@ history = model.fit(
     verbose=1,
     validation_data=(X_test, y_test_ohe),
     use_multiprocessing=True,
-    batch_size=1000,
+    batch_size=batch_size,
     callbacks=[tensorboard, eearlystopping]
 )
 
