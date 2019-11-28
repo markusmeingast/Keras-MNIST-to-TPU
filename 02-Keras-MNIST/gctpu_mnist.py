@@ -12,6 +12,11 @@ import time
 import numpy as np
 import cv2
 from PIL import Image
+from tensorflow import keras
+
+################################################################################
+# %% DEFAULT SETTINGS
+################################################################################
 
 np.set_printoptions(precision=3)
 
@@ -24,7 +29,6 @@ np.set_printoptions(precision=3)
 ################################################################################
 
 engine = BasicEngine('mnist_edgetpu.tflite')
-labels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 (_, xdim, ydim, zdim) = engine.get_input_tensor_shape()
 
 ################################################################################
@@ -36,7 +40,7 @@ cap = cv2.VideoCapture(0)
 ################################################################################
 # %% RUN MODEL OFF OF CAMERA ON TPU
 ################################################################################
-
+it = 0
 while cap.isOpened():
 
     ##### GRAB IMAGE FROM CAM
@@ -53,25 +57,26 @@ while cap.isOpened():
 
     ##### INVERT
     image = cv2.bitwise_not(image)
+    _, image = cv2.threshold(image,180,255,cv2.THRESH_BINARY)
 
     ##### FLATTEN INPUT
-    input = (image.flatten()/64).astype(np.uint8)
+    input = image.flatten()
 
-    #engine.RunInference(tensor)
-    #results = engine.ClassifyWithInputTensor(input)
+    ##### RUN ON TPU
     results = engine.run_inference(input)
-    print(f'{results[1]}')
-    #engine.get_raw_output()
 
-    #cv2_im = append_objs_to_img(cv2_im, objs, labels)
+    ##### PRINT RESULTS
+    if it % 20 == 0:
+        print(' | 0 | | 1 | | 2 | | 3 | | 4 | | 5 | | 6 | | 7 | | 8 | | 9 | ')
+    print(engine.get_raw_output())
+
+    image = cv2.resize(image, (560, 560))
 
     cv2.imshow('frame', image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+    it += 1
+
 cap.release()
 cv2.destroyAllWindows()
-
-
-engine.get_all_output_tensors_sizes()
-engine.total_output_array_size()
