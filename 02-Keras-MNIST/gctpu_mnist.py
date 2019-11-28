@@ -13,6 +13,7 @@ import numpy as np
 import cv2
 from PIL import Image
 from tensorflow import keras
+import matplotlib.pyplot as mp
 
 ################################################################################
 # %% DEFAULT SETTINGS
@@ -36,6 +37,8 @@ engine = BasicEngine('mnist_edgetpu.tflite')
 ################################################################################
 
 cap = cv2.VideoCapture(0)
+
+mp.figure()
 
 ################################################################################
 # %% RUN MODEL OFF OF CAMERA ON TPU
@@ -66,9 +69,13 @@ while cap.isOpened():
     results = engine.run_inference(input)
 
     ##### PRINT RESULTS
-    if it % 20 == 0:
-        print(' | 0 | | 1 | | 2 | | 3 | | 4 | | 5 | | 6 | | 7 | | 8 | | 9 | ')
-    print(engine.get_raw_output())
+    #if it % 20 == 0:
+    #    print(' | 0 | | 1 | | 2 | | 3 | | 4 | | 5 | | 6 | | 7 | | 8 | | 9 | ')
+    #print(engine.get_raw_output())
+    mp.gca().cla()
+    mp.bar(np.arange(10),engine.get_raw_output())
+    mp.axis([-0.5,9.5,0,1])
+    mp.pause(0.01)
 
     image = cv2.resize(image, (560, 560))
 
