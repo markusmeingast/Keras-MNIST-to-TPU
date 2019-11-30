@@ -7,11 +7,9 @@ TFLite model on Google Coral TPU Accelerator.
 # %% IMPORT PACKAGES
 ################################################################################
 
-#from tensorflow import keras
 from tensorflow import keras
 import tensorflow as tf
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as mp
 from time import time
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping
@@ -22,10 +20,6 @@ import cv2
 ################################################################################
 
 batch_size = 1000
-
-################################################################################
-# %% DEFINE FUNCTIONS / CLASSES
-################################################################################
 
 ################################################################################
 # %% IMPORT MNIST DATA
@@ -103,15 +97,27 @@ model.save('keras_model.h5')
 # %% PLOT LOSS HISTORY
 ################################################################################
 
-mp.semilogy(history.history['loss'], label='Training')
-mp.semilogy(history.history['val_loss'], label='Testing')
+mp.plot(history.history['accuracy'], label='Training')
+mp.plot(history.history['val_accuracy'], label='Testing')
+mp.xlabel('Epoch')
+mp.ylabel('Accuracy')
 mp.legend()
+mp.savefig('accuracy-history.png')
+mp.show()
+
+mp.plot(history.history['loss'], label='Training')
+mp.plot(history.history['val_loss'], label='Testing')
+mp.xlabel('Epoch')
+mp.ylabel('Loss')
+mp.legend()
+mp.savefig('loss-history.png')
 mp.show()
 
 ################################################################################
 # %% CONVERT
 ################################################################################
 
+##### GENERATOR FOR SAMPLE INPUT DATA TO QUANTIZE ON
 def representative_dataset_gen():
     for i in range(100):
         yield [X_train[i, None].astype(np.float32)]
@@ -130,7 +136,7 @@ converter.optimizations = [tf.lite.Optimize.DEFAULT]
 ##### REDUCE ALL INTERNAL OPERATIONS TO UNIT8
 converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
 converter.inference_input_type = tf.uint8
-converter.inference_output_type = tf.float32
+converter.inference_output_type = tf.uint8
 converter.inference_type = tf.float32
 
 ##### CONVERT THE MODEL
@@ -140,8 +146,11 @@ tflite_model = converter.convert()
 tflite_model_name = "mnist.tflite"
 open(tflite_model_name, "wb").write(tflite_model)
 
+##### MODEL SHOULD NOW BE COMPILED!
+# : edgetpu_compiler -s mnist.tflite
+
 ################################################################################
-# %% OPTIONS DUMP
+# %% VARIOUS OPTIONS FOR EXPORTING...
 ################################################################################
 
 #converter.representative_dataset = representative_dataset_gen
@@ -161,7 +170,4 @@ open(tflite_model_name, "wb").write(tflite_model)
 #    --output_arrays=dense/Softmax \
 
 #converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
-
-##### SET DEFAULT OPTIMIZATIONS
-
 #converter.optimizations = [tf.lite.Optimize.OPTIMIZE_FOR_SIZE]

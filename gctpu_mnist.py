@@ -7,12 +7,9 @@
 ################################################################################
 
 from edgetpu.basic.basic_engine import BasicEngine
-from edgetpu.classification.engine import ClassificationEngine
 import time
 import numpy as np
 import cv2
-from PIL import Image
-from tensorflow import keras
 import matplotlib.pyplot as mp
 
 ################################################################################
@@ -20,10 +17,6 @@ import matplotlib.pyplot as mp
 ################################################################################
 
 np.set_printoptions(precision=3)
-
-################################################################################
-# %% DEFINE FUNCTIONS
-################################################################################
 
 ################################################################################
 # %% IMPORT MODEL AND MOVE TO TPU
@@ -37,13 +30,12 @@ engine = BasicEngine('mnist_edgetpu.tflite')
 ################################################################################
 
 cap = cv2.VideoCapture(0)
-
 mp.figure()
 
 ################################################################################
 # %% RUN MODEL OFF OF CAMERA ON TPU
 ################################################################################
-it = 0
+
 while cap.isOpened():
 
     ##### GRAB IMAGE FROM CAM
@@ -60,18 +52,15 @@ while cap.isOpened():
 
     ##### INVERT
     image = cv2.bitwise_not(image)
+
+    ##### CONVERT TO BINARY (OTHER OPTIONS MAY MAKE MORE SENSE)
     _, image = cv2.threshold(image,180,255,cv2.THRESH_BINARY)
 
-    ##### FLATTEN INPUT
+    ##### FLATTEN INPUT (TPU REQUIREMENT)
     input = image.flatten()
 
     ##### RUN ON TPU
     results = engine.run_inference(input)
-
-    ##### PRINT RESULTS
-    #if it % 20 == 0:
-    #    print(' | 0 | | 1 | | 2 | | 3 | | 4 | | 5 | | 6 | | 7 | | 8 | | 9 | ')
-    #print(engine.get_raw_output())
 
     ##### PLOT RESULTS
     mp.gca().cla()
@@ -79,13 +68,12 @@ while cap.isOpened():
     mp.axis([-0.5,9.5,0,1])
     mp.pause(0.001)
 
+    ##### SHOW IMAGE THAT WAS FORWARDED TO TPU MODEL
     image = cv2.resize(image, (560, 560))
 
     cv2.imshow('frame', image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-
-    it += 1
 
 cap.release()
 cv2.destroyAllWindows()
