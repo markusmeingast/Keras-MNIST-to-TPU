@@ -1,5 +1,6 @@
 """
-
+This a simple proof of concept script that reads in a EdgeTPU compiled TFLite
+model and uses CV2 based webcam capture for inference on a MNIST model.
 """
 
 ################################################################################
@@ -75,5 +76,6 @@ while cap.isOpened():
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+##### CLEAR CAPTURE AND DISPAY
 cap.release()
 cv2.destroyAllWindows()
