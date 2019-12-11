@@ -10,7 +10,7 @@ A sequential model is built within Keras. It consists of 2 2D convolutional
 layers, a 2D max pooling layer, two dropout layers and two fully connected
 layers. The model consists of a total of 135k parameters.
 
-<img src="img/network.png" width="100" height="100">
+<img src="img/network.png" width="780" height="344">
 
       Model: "sequential"
       _________________________________________________________________
