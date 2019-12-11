@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="network.svg">
+   sodipodi:docname="network.svg"
+   inkscape:export-filename="/home/markus/Documents/03_Spiced/15-MNIST/img/network.png"
+   inkscape:export-xdpi="192"
+   inkscape:export-ydpi="192">
   <defs
      id="defs2">
     <marker
@@ -161,9 +164,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="111.12286"
-     inkscape:cy="130.90976"
+     inkscape:zoom="2"
+     inkscape:cx="146.50125"
+     inkscape:cy="71.174182"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
