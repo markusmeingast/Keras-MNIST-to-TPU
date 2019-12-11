@@ -1,4 +1,4 @@
-# Spiced-MNIST
+# Keras-MNIST-to-TPU
 
 Training a CNN model in Keras on the MNIST data. The model is then converted to
 TFLite and compiled for the Edge TPU. Webcam data can then be processed in
@@ -91,4 +91,4 @@ from the webcam and sending a preprocessed image to the TPU for inferencing.
 Both inference results and processed image are displayed to allow for
 interactivity with user.
 
-![Live Inference Example](inference.png "Live Inference Example from Webcam")
+![Live Inference Example](test-4.gif "Live Inference Example from Webcam")

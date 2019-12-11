@@ -67,10 +67,12 @@ while cap.isOpened():
     mp.gca().cla()
     mp.bar(np.arange(10),engine.get_raw_output())
     mp.axis([-0.5,9.5,0,1])
+    mp.xlabel('Number')
+    mp.ylabel('Probability')
     mp.pause(0.001)
 
     ##### SHOW IMAGE THAT WAS FORWARDED TO TPU MODEL
-    image = cv2.resize(image, (560, 560))
+    image = cv2.resize(frame, (560, 560))
 
     cv2.imshow('frame', image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
