@@ -10,6 +10,8 @@ A sequential model is built within Keras. It consists of 2 2D convolutional
 layers, a 2D max pooling layer, two dropout layers and two fully connected
 layers. The model consists of a total of 135k parameters.
 
+![CNN Network](img/network.png "CNN network")
+
       Model: "sequential"
       _________________________________________________________________
       Layer (type)                 Output Shape              Param #   
@@ -38,7 +40,7 @@ layers. The model consists of a total of 135k parameters.
 The model converges to an training/testing accuracy of 99.3% on training and 98.8 on testing indicating a bit
 of overfitting.
 
-![Loss History](loss-history.png "Loss History") ![Accuracy History](accuracy-history.png "Accuracy History")
+![Loss History](img/loss-history.png "Loss History") ![Accuracy History](img/accuracy-history.png "Accuracy History")
 
 Some regularization or reduction of model complexity may show
 further improvement. As the focus of this project is on the conversion and
@@ -91,4 +93,4 @@ from the webcam and sending a preprocessed image to the TPU for inferencing.
 Both inference results and processed image are displayed to allow for
 interactivity with user.
 
-![Live Inference Example](test-4.gif "Live Inference Example from Webcam")
+![Live Inference Example](img/test-4.gif "Live Inference Example from Webcam")
