@@ -1,3 +1,5 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # Keras-MNIST-to-TPU
 
 Training a CNN model in Keras on the MNIST data. The model is then converted to
